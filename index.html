@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+<meta http-equiv="Pragma" content="no-cache"/>
+<meta http-equiv="Expires" content="0"/>
+<meta http-equiv="refresh" content="time; URL=https://wanderstok.com/test" />
+
+<head>
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<style>
+body {
+  overflow: hidden; /* Hide scrollbars */
+}
+</style>
+
+<div class="mycontainer">
+	<div class="mydiv">
+	
+		<h1>WalkYourWords</h1>
+
+		<p id="longlat"></p>
+
+		Your username is: immediate{randomParticipantName}
+		
+		<br>
+		<br>
+		Write three words for this place
+		<form  enctype="multipart/form-data" action="/settings/uploadFile"  method="post" class="dropzone" id="myform">
+		<input id="one" type="text" name="words[one]" placeholder="your first word">
+		<input id="two" type="text" name="words[two]" placeholder="your second word">
+		<input id="three" type="text" name="words[three]" placeholder="your third word">
+		</form>
+		
+		<div class="postButton">
+			<button class="button" onclick="postWords()">Post Words</button>				
+		</div>
+		
+		<p id="lastUpload"></p>
+	</div>
+</div>
+		
+<script>
+	
+	var participantName = "immediate{randomParticipantName}";
+	var x = document.getElementById("longlat");
+	var lastUpload = document.getElementById("lastUpload");
+	var one = document.getElementById("one");
+	var two = document.getElementById("two");
+	var three = document.getElementById("three");
+	var position = {};
+	
+	function getLocation() {
+		console.log("getLocation");
+	  if (navigator.geolocation) {
+		navigator.geolocation.watchPosition(showPosition, errorCallback);
+		//navigator.geolocation.watchPosition(showPosition);
+	  } else { 
+		x.innerHTML = "Geolocation is not supported by this browser.";
+	  }
+	}
+	
+	function errorCallback(error) {
+		x.innerHTML = "Please allow this website to track your location.";
+  		alert(`ERROR(${error.code}): ${error.message}`);
+	};
+
+	function toFixed(x) {
+		return Number.parseFloat(x).toFixed(5);
+	}
+
+	function showPosition(currentPosition) {
+		position = currentPosition;
+		x.innerHTML="Latitude: " + toFixed(position.coords.latitude) + 
+		"<br>Longitude: " + toFixed(position.coords.longitude);
+		console.log("showPosition");
+	}
+	
+	async function postAsync()
+	{
+		var formData = new FormData( document.getElementById("myform") );
+		
+		let response = await fetch('/', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				wanderData: {
+					participantName: participantName,
+					one: formData.get("words[one]"),
+					two: formData.get("words[two]"),
+					three: formData.get("words[three]"),
+					lat: position.coords.latitude,
+					lon: position.coords.longitude
+				}
+			})
+		});
+		
+		document.getElementById('myform').reset();
+		lastUpload.innerHTML = "";
+	}
+	
+	timeInMilliseconds = 1000 * 60 * 3; // updates every three minutes	
+
+	function postWords ()
+	{
+		postAsync();
+	}
+	
+	function updatePosition() {
+	  console.log('updatePosition');
+	  postWords();
+	}
+
+	getLocation();
+	setInterval(updatePosition, timeInMilliseconds);
+
+</script>
+
+</body>
+</html>

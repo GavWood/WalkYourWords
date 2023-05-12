@@ -1,0 +1,46 @@
+.button {
+  background-color: #40AF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 30px;
+}
+
+.mycontainer {
+  display: flex;
+}
+
+.mydiv
+{
+	width: 80%;
+	margin: 0 auto;
+}
+
+h1
+{
+	text-align:center;
+	font-size: 40pt;
+}
+
+body {
+	height: 100%;
+	overflow: auto;
+}
+
+body, input, textarea, select {
+	font-family: 'Source Sans Pro', sans-serif;
+	font-weight: 300;
+	color: black;
+	font-size: 30pt;
+	line-height: 1.75em;
+}
+
+.postButton {
+	margin:0 auto;
+	display: block;
+	margin-top: 10px;
+	font-size: 40pt;
+}
