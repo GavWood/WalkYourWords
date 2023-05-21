@@ -531,7 +531,7 @@ app.get('/maps', (req, res) => {
 	files.forEach(file => {	  
 	
 		const title = file.split('.').slice(0, -1).join('.');
-		var url = "https://wanderstok.com/show/" + title;
+		var url = "https://walkyourwords.com/show/" + title;
 		
 		//console.log(file);
 		mapNames += "<a href='"+url+"'>" + title + "</a>";
@@ -594,7 +594,7 @@ app.get('/maps2', (req, res) => {
 	files.forEach(file => {	  
 	
 		const title = file.split('.').slice(0, -1).join('.');
-		//var url = "https://wanderstok.com/map/" + title;
+		//var url = "https://walkyourwords.com/map/" + title;
 		var url = "/map/" + title;
 		
 		//console.log(file);
